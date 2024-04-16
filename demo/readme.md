@@ -22,13 +22,13 @@ Um diese Probleme anzugehen, wurde das Projekt umstrukturiert, um eine klarere E
 
 Questions:
 
-    ORM (Object-Relational Mapping): ORM is a programming technique that allows developers to map objects from an object-oriented programming language (such as Java) to relational database tables. It simplifies the data manipulation process by eliminating the need to write complex SQL queries and directly interact with the database. ORM frameworks, like JPA (Java Persistence API), handle the mapping between objects and database tables transparently.
+ORM (Object-Relational Mapping): ORM is a programming technique that allows developers to map objects from an object-oriented programming language (such as Java) to relational database tables. It simplifies the data manipulation process by eliminating the need to write complex SQL queries and directly interact with the database. ORM frameworks, like JPA (Java Persistence API), handle the mapping between objects and database tables transparently.
 
-    JPA (Java Persistence API): JPA is a Java specification for ORM that provides a standard way for Java developers to manage relational data in applications. It allows developers to define entity classes that represent database tables and use annotations to map these classes to the corresponding tables. JPA also provides APIs for performing CRUD (Create, Read, Update, Delete) operations on entities.
+JPA (Java Persistence API): JPA is a Java specification for ORM that provides a standard way for Java developers to manage relational data in applications. It allows developers to define entity classes that represent database tables and use annotations to map these classes to the corresponding tables. JPA also provides APIs for performing CRUD (Create, Read, Update, Delete) operations on entities.
 
-    application.properties: The application.properties file is commonly used in Spring Boot applications to externalize configuration properties. It contains key-value pairs that configure various aspects of the application, such as database connection settings, logging levels, and server port. This file is typically stored in the src/main/resources directory of the Spring Boot project.
+application.properties: The application.properties file is commonly used in Spring Boot applications to externalize configuration properties. It contains key-value pairs that configure various aspects of the application, such as database connection settings, logging levels, and server port. This file is typically stored in the src/main/resources directory of the Spring Boot project.
 
-    Frequently Used Annotations for Entity Types:
+* Frequently Used Annotations for Entity Types:
         @Entity: Marks a class as an entity, which represents a table in the database.
         @Id: Specifies the primary key of the entity.
         @GeneratedValue: Configures the generation strategy for the primary key values.
@@ -37,12 +37,12 @@ Questions:
         @JoinColumn: Specifies the column used for joining tables in a relationship.
         @Transient: Marks a field as not persistent, meaning it will not be mapped to the database.
 
-    Key Points to Observe:
+* Key Points to Observe:
         Ensure each entity has a primary key annotated with @Id.
         Use appropriate fetch strategies (LAZY or EAGER) to optimize performance.
         Understand the cascading behavior (cascade attribute) for relationships to manage the persistence of related entities.
 
-    CRUD Operations Methods:
+* CRUD Operations Methods:
         Create: save() method to persist a new entity.
         Read: findById(), findAll(), or custom query methods to retrieve entities.
         Update: Modify the entity object and use save() method to update it.
