@@ -1,0 +1,176 @@
+&ACCESS RVP
+&REL 75
+&PARAM EDITMASK = *
+&PARAM TEMPLATE = C:\KRC\Roboter\Template\vorgabe
+&PARAM DISKPATH = KRC:\R1\Program\sj202324
+DEF vt( )
+;FOLD INI;%{PE}
+  ;FOLD BASISTECH INI
+    GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+    INTERRUPT ON 3 
+    BAS (#INITMOV,0 )
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+
+;FOLD SPTP HOME Vel=100 % DEFAULT ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=HOME; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=DEFAULT; Kuka.VelocityPtp=100; Kuka.VelocityFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SPTP
+;ENDFOLD
+SPTP XHOME WITH $VEL_AXIS[1] = SVEL_JOINT(100.0), $TOOL = STOOL2(FHOME), $BASE = SBASE(FHOME.BASE_NO), $IPO_MODE = SIPO_MODE(FHOME.IPO_FRAME), $LOAD = SLOAD(FHOME.TOOL_NO), $ACC_AXIS[1] = SACC_JOINT(PDEFAULT), $APO = SAPO_PTP(PDEFAULT), $GEAR_JERK[1] = SGEAR_JERK(PDEFAULT), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+
+;FOLD SPTP UEBER1 Vel=100 % PDAT1 Tool[1]:Kurtigreifer Base[4]:Base4 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=UEBER1; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT1; Kuka.VelocityPtp=100; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SPTP
+;ENDFOLD
+SPTP XUEBER1 WITH $VEL_AXIS[1] = SVEL_JOINT(100.0), $TOOL = STOOL2(FUEBER1), $BASE = SBASE(FUEBER1.BASE_NO), $IPO_MODE = SIPO_MODE(FUEBER1.IPO_FRAME), $LOAD = SLOAD(FUEBER1.TOOL_NO), $ACC_AXIS[1] = SACC_JOINT(PPDAT1), $APO = SAPO_PTP(PPDAT1), $GEAR_JERK[1] = SGEAR_JERK(PPDAT1), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SLIN W1 Vel=2 m/s CPDAT3 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=W1; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT3; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XW1 WITH $VEL = SVEL_CP(2.0, , LCPDAT3), $TOOL = STOOL2(FW1), $BASE = SBASE(FW1.BASE_NO), $IPO_MODE = SIPO_MODE(FW1.IPO_FRAME), $LOAD = SLOAD(FW1.TOOL_NO), $ACC = SACC_CP(LCPDAT3), $ORI_TYPE = SORI_TYP(LCPDAT3), $APO = SAPO(LCPDAT3), $JERK = SJERK(LCPDAT3), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD Gripper SET [1]Parallelgreifer State=[2]CLOSE Wait 0.2[s] Check with Strategy 1 ;%{PE}
+;FOLD Parameters Parameters ;%{h}
+;Params IlfProvider=GripperTech.GripperSet;setgripper=1;setstate=2;setcont=nocont;waittime=0.2;errorstrategy=1
+;ENDFOLD
+GRPg_SetStateAndCheck(1, 2, 0.2, 1)
+;ENDFOLD
+;FOLD SLIN Ueber1 Vel=2 m/s CPDAT4 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=Ueber1; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT4; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XUeber1 WITH $VEL = SVEL_CP(2.0, , LCPDAT4), $TOOL = STOOL2(FUeber1), $BASE = SBASE(FUeber1.BASE_NO), $IPO_MODE = SIPO_MODE(FUeber1.IPO_FRAME), $LOAD = SLOAD(FUeber1.TOOL_NO), $ACC = SACC_CP(LCPDAT4), $ORI_TYPE = SORI_TYP(LCPDAT4), $APO = SAPO(LCPDAT4), $JERK = SJERK(LCPDAT4), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SLIN UeberZiel Vel=2 m/s CPDAT5 Tool[1]:Kurtigreifer Base[4]:Base4 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=UeberZiel; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT5; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XUeberZiel WITH $VEL = SVEL_CP(2.0, , LCPDAT5), $TOOL = STOOL2(FUeberZiel), $BASE = SBASE(FUeberZiel.BASE_NO), $IPO_MODE = SIPO_MODE(FUeberZiel.IPO_FRAME), $LOAD = SLOAD(FUeberZiel.TOOL_NO), $ACC = SACC_CP(LCPDAT5), $ORI_TYPE = SORI_TYP(LCPDAT5), $APO = SAPO(LCPDAT5), $JERK = SJERK(LCPDAT5), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SLIN WZ Vel=2 m/s CPDAT6 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=WZ; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT6; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XWZ WITH $VEL = SVEL_CP(2.0, , LCPDAT6), $TOOL = STOOL2(FWZ), $BASE = SBASE(FWZ.BASE_NO), $IPO_MODE = SIPO_MODE(FWZ.IPO_FRAME), $LOAD = SLOAD(FWZ.TOOL_NO), $ACC = SACC_CP(LCPDAT6), $ORI_TYPE = SORI_TYP(LCPDAT6), $APO = SAPO(LCPDAT6), $JERK = SJERK(LCPDAT6), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD Gripper SET [1]Parallelgreifer State=[1]OPEN Wait 0.2[s] Check with Strategy 1 ;%{PE}
+;FOLD Parameters Parameters ;%{h}
+;Params IlfProvider=GripperTech.GripperSet;setgripper=1;setstate=1;setcont=nocont;waittime=0.2;errorstrategy=1
+;ENDFOLD
+GRPg_SetStateAndCheck(1, 1, 0.2, 1)
+;ENDFOLD
+;FOLD SLIN UeberZiel2 Vel=2 m/s CPDAT9 Tool[1]:Kurtigreifer Base[4]:Base4 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=UeberZiel2; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT9; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XUeberZiel2 WITH $VEL = SVEL_CP(2.0, , LCPDAT9), $TOOL = STOOL2(FUeberZiel2), $BASE = SBASE(FUeberZiel2.BASE_NO), $IPO_MODE = SIPO_MODE(FUeberZiel2.IPO_FRAME), $LOAD = SLOAD(FUeberZiel2.TOOL_NO), $ACC = SACC_CP(LCPDAT9), $ORI_TYPE = SORI_TYP(LCPDAT9), $APO = SAPO(LCPDAT9), $JERK = SJERK(LCPDAT9), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SPTP Ueber2 Vel=100 % PDAT2 Tool[1]:Kurtigreifer Base[4]:Base4 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=Ueber2; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT2; Kuka.VelocityPtp=100; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SPTP
+;ENDFOLD
+SPTP XUeber2 WITH $VEL_AXIS[1] = SVEL_JOINT(100.0), $TOOL = STOOL2(FUeber2), $BASE = SBASE(FUeber2.BASE_NO), $IPO_MODE = SIPO_MODE(FUeber2.IPO_FRAME), $LOAD = SLOAD(FUeber2.TOOL_NO), $ACC_AXIS[1] = SACC_JOINT(PPDAT2), $APO = SAPO_PTP(PPDAT2), $GEAR_JERK[1] = SGEAR_JERK(PPDAT2), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SLIN W2 Vel=2 m/s CPDAT10 Tool[1]:Kurtigreifer Base[4]:Base4 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=W2; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT10; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+;ENDFOLD
+
+;FOLD SLIN W21 Vel=2 m/s CPDAT15 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=W21; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT15; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XW21 WITH $VEL = SVEL_CP(2.0, , LCPDAT15), $TOOL = STOOL2(FW21), $BASE = SBASE(FW21.BASE_NO), $IPO_MODE = SIPO_MODE(FW21.IPO_FRAME), $LOAD = SLOAD(FW21.TOOL_NO), $ACC = SACC_CP(LCPDAT15), $ORI_TYPE = SORI_TYP(LCPDAT15), $APO = SAPO(LCPDAT15), $JERK = SJERK(LCPDAT15), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD Gripper SET [1]Parallelgreifer State=[2]CLOSE Wait 0.2[s] Check with Strategy 1 ;%{PE}
+;FOLD Parameters Parameters ;%{h}
+;Params IlfProvider=GripperTech.GripperSet;setgripper=1;setstate=2;setcont=nocont;waittime=0.2;errorstrategy=1
+;ENDFOLD
+GRPg_SetStateAndCheck(1, 2, 0.2, 1)
+;ENDFOLD
+;FOLD SLIN Ueber2 Vel=2 m/s CPDAT11 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=Ueber2; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT11; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XUeber2 WITH $VEL = SVEL_CP(2.0, , LCPDAT11), $TOOL = STOOL2(FUeber2), $BASE = SBASE(FUeber2.BASE_NO), $IPO_MODE = SIPO_MODE(FUeber2.IPO_FRAME), $LOAD = SLOAD(FUeber2.TOOL_NO), $ACC = SACC_CP(LCPDAT11), $ORI_TYPE = SORI_TYP(LCPDAT11), $APO = SAPO(LCPDAT11), $JERK = SJERK(LCPDAT11), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SLIN Ueber21 Vel=2 m/s CPDAT12 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=Ueber21; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT12; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XUeber21 WITH $VEL = SVEL_CP(2.0, , LCPDAT12), $TOOL = STOOL2(FUeber21), $BASE = SBASE(FUeber21.BASE_NO), $IPO_MODE = SIPO_MODE(FUeber21.IPO_FRAME), $LOAD = SLOAD(FUeber21.TOOL_NO), $ACC = SACC_CP(LCPDAT12), $ORI_TYPE = SORI_TYP(LCPDAT12), $APO = SAPO(LCPDAT12), $JERK = SJERK(LCPDAT12), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SPTP UeberZiel2 Vel=100 % PDAT3 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=UeberZiel2; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT3; Kuka.VelocityPtp=100; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SPTP
+;ENDFOLD
+SPTP XUeberZiel2 WITH $VEL_AXIS[1] = SVEL_JOINT(100.0), $TOOL = STOOL2(FUeberZiel2), $BASE = SBASE(FUeberZiel2.BASE_NO), $IPO_MODE = SIPO_MODE(FUeberZiel2.IPO_FRAME), $LOAD = SLOAD(FUeberZiel2.TOOL_NO), $ACC_AXIS[1] = SACC_JOINT(PPDAT3), $APO = SAPO_PTP(PPDAT3), $GEAR_JERK[1] = SGEAR_JERK(PPDAT3), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SLIN Z2 Vel=2 m/s CPDAT13 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=Z2; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT13; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XZ2 WITH $VEL = SVEL_CP(2.0, , LCPDAT13), $TOOL = STOOL2(FZ2), $BASE = SBASE(FZ2.BASE_NO), $IPO_MODE = SIPO_MODE(FZ2.IPO_FRAME), $LOAD = SLOAD(FZ2.TOOL_NO), $ACC = SACC_CP(LCPDAT13), $ORI_TYPE = SORI_TYP(LCPDAT13), $APO = SAPO(LCPDAT13), $JERK = SJERK(LCPDAT13), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD Gripper SET [1]Parallelgreifer State=[1]OPEN Wait 0.2[s] Check with Strategy 1 ;%{PE}
+;FOLD Parameters Parameters ;%{h}
+;Params IlfProvider=GripperTech.GripperSet;setgripper=1;setstate=1;setcont=nocont;waittime=0.2;errorstrategy=1
+;ENDFOLD
+GRPg_SetStateAndCheck(1, 1, 0.2, 1)
+;ENDFOLD
+;FOLD SLIN UeberZiel3 Vel=2 m/s CPDAT16 Tool[1]:Kurtigreifer Base[4]:Base4 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=UeberZiel3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT16; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XUeberZiel3 WITH $VEL = SVEL_CP(2.0, , LCPDAT16), $TOOL = STOOL2(FUeberZiel3), $BASE = SBASE(FUeberZiel3.BASE_NO), $IPO_MODE = SIPO_MODE(FUeberZiel3.IPO_FRAME), $LOAD = SLOAD(FUeberZiel3.TOOL_NO), $ACC = SACC_CP(LCPDAT16), $ORI_TYPE = SORI_TYP(LCPDAT16), $APO = SAPO(LCPDAT16), $JERK = SJERK(LCPDAT16), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SPTP UeberW3 Vel=100 % PDAT5 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=UeberW3; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT5; Kuka.VelocityPtp=100; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SPTP
+;ENDFOLD
+SPTP XUeberW3 WITH $VEL_AXIS[1] = SVEL_JOINT(100.0), $TOOL = STOOL2(FUeberW3), $BASE = SBASE(FUeberW3.BASE_NO), $IPO_MODE = SIPO_MODE(FUeberW3.IPO_FRAME), $LOAD = SLOAD(FUeberW3.TOOL_NO), $ACC_AXIS[1] = SACC_JOINT(PPDAT5), $APO = SAPO_PTP(PPDAT5), $GEAR_JERK[1] = SGEAR_JERK(PPDAT5), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SLIN W4 Vel=2 m/s CPDAT17 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=W4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT17; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XW4 WITH $VEL = SVEL_CP(2.0, , LCPDAT17), $TOOL = STOOL2(FW4), $BASE = SBASE(FW4.BASE_NO), $IPO_MODE = SIPO_MODE(FW4.IPO_FRAME), $LOAD = SLOAD(FW4.TOOL_NO), $ACC = SACC_CP(LCPDAT17), $ORI_TYPE = SORI_TYP(LCPDAT17), $APO = SAPO(LCPDAT17), $JERK = SJERK(LCPDAT17), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD Gripper SET [1]Parallelgreifer State=[2]CLOSE Wait 0.2[s] Check with Strategy 1 ;%{PE}
+;FOLD Parameters Parameters ;%{h}
+;Params IlfProvider=GripperTech.GripperSet;setgripper=1;setstate=2;setcont=nocont;waittime=0.2;errorstrategy=1
+;ENDFOLD
+GRPg_SetStateAndCheck(1, 2, 0.2, 1)
+;ENDFOLD
+;FOLD SLIN UeberW32 Vel=2 m/s CPDAT18 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=UeberW32; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT18; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XUeberW32 WITH $VEL = SVEL_CP(2.0, , LCPDAT18), $TOOL = STOOL2(FUeberW32), $BASE = SBASE(FUeberW32.BASE_NO), $IPO_MODE = SIPO_MODE(FUeberW32.IPO_FRAME), $LOAD = SLOAD(FUeberW32.TOOL_NO), $ACC = SACC_CP(LCPDAT18), $ORI_TYPE = SORI_TYP(LCPDAT18), $APO = SAPO(LCPDAT18), $JERK = SJERK(LCPDAT18), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD SLIN UeberZiel5 Vel=2 m/s CPDAT21 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=UeberZiel5; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT21; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XUeberZiel5 WITH $VEL = SVEL_CP(2.0, , LCPDAT21), $TOOL = STOOL2(FUeberZiel5), $BASE = SBASE(FUeberZiel5.BASE_NO), $IPO_MODE = SIPO_MODE(FUeberZiel5.IPO_FRAME), $LOAD = SLOAD(FUeberZiel5.TOOL_NO), $ACC = SACC_CP(LCPDAT21), $ORI_TYPE = SORI_TYP(LCPDAT21), $APO = SAPO(LCPDAT21), $JERK = SJERK(LCPDAT21), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+;FOLD Gripper SET [1]Parallelgreifer State=[1]OPEN Wait 0.2[s] Check with Strategy 1 ;%{PE}
+;FOLD Parameters Parameters ;%{h}
+;Params IlfProvider=GripperTech.GripperSet;setgripper=1;setstate=1;setcont=nocont;waittime=0.2;errorstrategy=1
+;ENDFOLD
+GRPg_SetStateAndCheck(1, 1, 0.2, 1)
+;ENDFOLD
+;FOLD SLIN UeberZiel32 Vel=2 m/s CPDAT20 Tool[1]:Kurtigreifer Base[4]:Base4  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.spline; Kuka.IsGlobalPoint=False; Kuka.PointName=UeberZiel32; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT20; Kuka.VelocityPath=2; Kuka.VelocityFieldEnabled=True; Kuka.ColDetectFieldEnabled=True; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=SLIN
+;ENDFOLD
+SLIN XUeberZiel32 WITH $VEL = SVEL_CP(2.0, , LCPDAT20), $TOOL = STOOL2(FUeberZiel32), $BASE = SBASE(FUeberZiel32.BASE_NO), $IPO_MODE = SIPO_MODE(FUeberZiel32.IPO_FRAME), $LOAD = SLOAD(FUeberZiel32.TOOL_NO), $ACC = SACC_CP(LCPDAT20), $ORI_TYPE = SORI_TYP(LCPDAT20), $APO = SAPO(LCPDAT20), $JERK = SJERK(LCPDAT20), $COLLMON_TOL_PRO[1] = USE_CM_PRO_VALUES(0)
+;ENDFOLD
+END
